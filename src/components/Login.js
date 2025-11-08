@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 
 const Login = ({ onSignupClick, onForgotClick, onLoginSuccess }) => {
@@ -5,9 +7,18 @@ const Login = ({ onSignupClick, onForgotClick, onLoginSuccess }) => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+
+    if (!passwordRegex.test(password)) {
+      setMessage(
+        "Password must contain at least 8 characters, including one uppercase, one lowercase, and one number."
+      );
+      return;
+    }
 
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/signin`, {
@@ -19,14 +30,15 @@ const Login = ({ onSignupClick, onForgotClick, onLoginSuccess }) => {
 
       const data = await res.json();
 
-      if (res.ok) {
-        localStorage.setItem("token", data.token);
-        onLoginSuccess(email);
-      } else {
-        setMessage(data.message);
+      if (!res.ok) {
+        setMessage(data.message || "Invalid credentials.");
+        return;
       }
+
+      localStorage.setItem("token", data.token);
+      onLoginSuccess(email);
     } catch (err) {
-      setMessage("Login failed!");
+      setMessage("Network error. Try again.");
     }
   };
 

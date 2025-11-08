@@ -5,8 +5,19 @@ const ChangePassword = ({ onBack }) => {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
   const handleChange = async (e) => {
     e.preventDefault();
+    setMessage("");
+
+    if (!passwordRegex.test(newPassword)) {
+      setMessage(
+        "Password must contain at least 8 characters, including one uppercase, one lowercase, and one number."
+      );
+      return;
+    }
+
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/change-password`, {
         method: "PATCH",
@@ -17,10 +28,17 @@ const ChangePassword = ({ onBack }) => {
         credentials: "include",
         body: JSON.stringify({ oldPassword, newPassword }),
       });
+
       const data = await res.json();
-      setMessage(data.message);
+
+      if (!res.ok) {
+        setMessage(data.message || "Password change failed.");
+        return;
+      }
+
+      setMessage("Password updated successfully!");
     } catch (err) {
-      setMessage("Change failed!");
+      setMessage("Error connecting to server.");
     }
   };
 
@@ -42,12 +60,15 @@ const ChangePassword = ({ onBack }) => {
           onChange={(e) => setNewPassword(e.target.value)}
           required
         />
-        <button type="submit">Change</button>
+        <button type="submit">Change Password</button>
       </form>
+
       <p className="message">{message}</p>
-      <button onClick={onBack}>Back</button>
+
+      <button onClick={onBack}>⬅ Back</button>
     </div>
   );
 };
 
 export default ChangePassword;
+
