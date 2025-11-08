@@ -1,57 +1,187 @@
+/* === Global Setup === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+}
 
 body {
-  font-family: Arial, sans-serif;
-  background: #f3f6fa;
+  margin: 0;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2, #6b8dd6, #9e6dc2);
+  background-size: 300% 300%;
+  animation: gradientShift 10s ease infinite;
+  overflow: hidden;
 }
 
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* === Container Styling === */
 .form-container,
 .dashboard {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 340px;
+  width: 370px;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   text-align: center;
+  color: #fff;
+  animation: fadeSlideIn 0.8s ease;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transform: translateY(20px);
 }
 
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* === Heading === */
+h2 {
+  background: linear-gradient(90deg, #ffecd2, #fcb69f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  font-size: 1.9rem;
+  letter-spacing: 1px;
+}
+
+/* === Inputs === */
 input {
   width: 90%;
-  padding: 0.6rem;
-  margin: 0.5rem 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 0.7rem;
+  margin: 0.6rem 0;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #333;
+  font-size: 1rem;
+  outline: none;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s ease;
 }
 
+input:focus {
+  box-shadow: 0 0 8px #764ba2;
+  transform: scale(1.03);
+}
+
+/* === Buttons === */
 button {
   width: 95%;
-  padding: 0.6rem;
-  background: #007bff;
-  color: white;
+  padding: 0.8rem;
+  margin-top: 0.6rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 5px 20px rgba(106, 17, 203, 0.4);
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background: #0056b3;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37, 117, 252, 0.5);
 }
 
+button:active {
+  transform: scale(0.97);
+}
+
+/* === Message === */
 .message {
-  color: #e74c3c;
-  margin-top: 0.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-top: 0.6rem;
+  color: #ffbaba;
+  font-size: 0.9rem;
+  animation: fadeIn 0.4s ease-in;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Links === */
 .link {
-  color: #007bff;
+  color: #ffeb3b;
   cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
 }
 
-.dashboard button {
-  display: block;
-  width: 100%;
-  margin: 0.5rem 0;
+.link:hover {
+  color: #fff;
+  transform: scale(1.05);
 }
+
+/* === Dashboard === */
+.dashboard p {
+  color: #f0f0f0;
+  font-size: 1rem;
+}
+
+/* === Animations Between Pages === */
+.app > div {
+  animation: pageSwap 0.6s ease;
+}
+
+@keyframes pageSwap {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Mobile Responsive === */
+@media (max-width: 420px) {
+  .form-container,
+  .dashboard {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+}
+
+
